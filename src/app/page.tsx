@@ -33,7 +33,9 @@ export default function Home() {
           </div>
         </div>
 
-        <Timeline />
+        <div className="shrink-0 sticky bottom-0 z-20">
+          <Timeline />
+        </div>
         <SettingsModal />
       </div>
     </ReactFlowProvider>
