@@ -43,7 +43,7 @@ test('full real e2e: Record → speak → diagram appears (no mocks)', async ({ 
 
   // Load page, clear state
   await page.goto('http://localhost:3001')
-  await page.evaluate(() => localStorage.removeItem('yappergram-storage'))
+  await page.evaluate(() => localStorage.removeItem('yapsesh-storage'))
   await page.reload()
   await page.waitForLoadState('networkidle')
   await page.waitForFunction(() => !!(window as any).__appStore, { timeout: 5000 })

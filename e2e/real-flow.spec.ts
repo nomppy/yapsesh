@@ -22,17 +22,17 @@ test('real component flow: inject into live store → flush → flowchart', asyn
 
   // Clear any stale persisted state
   await page.goto('http://localhost:3001')
-  await page.evaluate(() => localStorage.removeItem('yappergram-storage'))
+  await page.evaluate(() => localStorage.removeItem('yapsesh-storage'))
   await page.reload()
   await page.waitForLoadState('networkidle')
-  await expect(page.locator('h1')).toHaveText('YapperGram')
+  await expect(page.locator('h1')).toHaveText('YapSesh')
   console.log('Page loaded, localStorage cleared')
 
   // Expose the zustand store on window so we can poke it
   await page.evaluate(() => {
     // Patch addTranscript to also expose the store globally
     // We need to find the store — it's a module singleton.
-    // The persist middleware writes to localStorage with key 'yappergram-storage'.
+    // The persist middleware writes to localStorage with key 'yapsesh-storage'.
     // But we need the live store instance to call actions like addTranscript and clearBuffer.
     // Let's intercept via the zustand devtools or by patching.
 
@@ -59,7 +59,7 @@ test('real component flow: inject into live store → flush → flowchart', asyn
     const logs: string[] = []
 
     // Read current persisted state (or empty)
-    const raw = localStorage.getItem('yappergram-storage')
+    const raw = localStorage.getItem('yapsesh-storage')
     const persisted = raw ? JSON.parse(raw) : { state: {} }
     const existingTopics = persisted.state?.topics || {}
     const apiKeys = persisted.state?.apiKeys || {}
@@ -132,7 +132,7 @@ test('real component flow: inject into live store → flush → flowchart', asyn
         },
         version: 0,
       }
-      localStorage.setItem('yappergram-storage', JSON.stringify(newState))
+      localStorage.setItem('yapsesh-storage', JSON.stringify(newState))
       logs.push(`Persisted ${Object.keys(newTopics).length} topics to localStorage`)
 
       return { logs, success: true, topicCount: Object.keys(newTopics).length }

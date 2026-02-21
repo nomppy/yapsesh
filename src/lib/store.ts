@@ -143,7 +143,7 @@ export const useAppStore = create<AppState>()(
       }),
     }),
     {
-      name: 'yappergram-storage',
+      name: 'yapsesh-storage',
       partialize: (state) => ({
         topics: state.topics,
         relationships: state.relationships,

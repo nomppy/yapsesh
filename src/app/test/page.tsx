@@ -126,7 +126,7 @@ export default function TestPage() {
     <ReactFlowProvider>
       <div className="flex flex-col h-screen bg-zinc-50">
         <div className="border-b border-zinc-200 bg-white px-4 py-3">
-          <h1 className="text-base font-bold text-zinc-800">YapperGram Test Harness</h1>
+          <h1 className="text-base font-bold text-zinc-800">YapSesh Test Harness</h1>
         </div>
 
         <div className="flex flex-1 min-h-0">

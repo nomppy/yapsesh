@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "YapperGram - Live Discussion Flowchart",
+  title: "YapSesh - Live Discussion Flowchart",
   description: "Live-generates an interactive flowchart of discussion topics from voice input",
 };
 

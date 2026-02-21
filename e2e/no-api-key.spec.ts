@@ -6,7 +6,7 @@ test('no API key: shows clear error pointing to settings', async ({ page }) => {
   })
 
   await page.goto('http://localhost:3001')
-  await page.evaluate(() => localStorage.removeItem('yappergram-storage'))
+  await page.evaluate(() => localStorage.removeItem('yapsesh-storage'))
   await page.reload()
   await page.waitForLoadState('networkidle')
   await page.waitForFunction(() => !!(window as any).__appStore, { timeout: 5000 })

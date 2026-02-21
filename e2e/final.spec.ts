@@ -86,7 +86,7 @@ test('DeepSeek API key validation', async ({ page }) => {
 test('test page has 6 yapping transcript chunks', { timeout: 200000 }, async ({ page }) => {
   await page.goto('http://localhost:3001/test')
   await page.waitForLoadState('networkidle')
-  await expect(page.locator('h1')).toHaveText('YapperGram Test Harness')
+  await expect(page.locator('h1')).toHaveText('YapSesh Test Harness')
 
   // Verify the page has the new transcripts by checking the source
   const hasRamen = await page.evaluate(() => document.body.innerHTML.includes('ramen') || true)

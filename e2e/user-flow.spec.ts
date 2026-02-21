@@ -34,7 +34,7 @@ test('user flow: record → transcript → API → flowchart', async ({ page }) 
   await page.waitForLoadState('networkidle')
 
   // Verify page loaded
-  await expect(page.locator('h1')).toHaveText('YapperGram')
+  await expect(page.locator('h1')).toHaveText('YapSesh')
   console.log('\n=== Page loaded ===')
 
   // Inject transcript text directly into the store and trigger the flush,
@@ -60,7 +60,7 @@ test('user flow: record → transcript → API → flowchart', async ({ page }) 
   const result = await page.evaluate(async () => {
     // Find the zustand store - it's accessible via the module system in the bundle
     // We can access it through the persist middleware's storage
-    const stored = localStorage.getItem('yappergram-storage')
+    const stored = localStorage.getItem('yapsesh-storage')
     const logs: string[] = []
     logs.push(`localStorage state: ${stored ? 'exists' : 'empty'}`)
 
@@ -105,7 +105,7 @@ test('user flow: record → transcript → API → flowchart', async ({ page }) 
     // Instead, let's find it via __NEXT_DATA__ or React internals.
 
     // Simplest: modify localStorage and reload? No, too slow.
-    // Better: we know the store persists to 'yappergram-storage'.
+    // Better: we know the store persists to 'yapsesh-storage'.
     // Let's write a state with a transcript buffer, then simulate what AudioCapture.flushBuffer does.
 
     // Actually, the cleanest approach: just replicate what flushBuffer does
@@ -162,7 +162,7 @@ test('user flow: record → transcript → API → flowchart', async ({ page }) 
         version: 0,
       }
 
-      localStorage.setItem('yappergram-storage', JSON.stringify(persistState))
+      localStorage.setItem('yapsesh-storage', JSON.stringify(persistState))
       logs.push('Wrote state to localStorage')
       logs.push(`Topics: ${Object.keys(topics).join(', ')}`)
 

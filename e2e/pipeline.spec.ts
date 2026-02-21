@@ -13,7 +13,7 @@ test('full pipeline: inject transcript → API → flowchart renders', async ({ 
   await page.waitForLoadState('networkidle')
 
   // Verify test page loaded
-  await expect(page.locator('h1')).toHaveText('YapperGram Test Harness')
+  await expect(page.locator('h1')).toHaveText('YapSesh Test Harness')
 
   // Step 1: Test API Only
   console.log('\n=== TEST: API Only ===')

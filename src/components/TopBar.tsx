@@ -22,7 +22,7 @@ export function TopBar() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `yappergram-${new Date().toISOString().slice(0, 10)}.json`
+    a.download = `yapsesh-${new Date().toISOString().slice(0, 10)}.json`
     a.click()
     URL.revokeObjectURL(url)
   }
@@ -30,7 +30,7 @@ export function TopBar() {
   return (
     <header className="flex items-center justify-between px-4 py-2.5 border-b border-zinc-200 bg-white">
       <div className="flex items-center gap-3">
-        <h1 className="text-base font-bold text-zinc-800 tracking-tight">YapperGram</h1>
+        <h1 className="text-base font-bold text-zinc-800 tracking-tight">YapSesh</h1>
         <span className="text-[10px] text-zinc-400 font-medium">
           {Object.keys(topics).length} topic{Object.keys(topics).length !== 1 ? 's' : ''}
         </span>

@@ -26,7 +26,7 @@ async function seedTopics(page: import('@playwright/test').Page) {
       },
       version: 0,
     }
-    localStorage.setItem('yappergram-storage', JSON.stringify(state))
+    localStorage.setItem('yapsesh-storage', JSON.stringify(state))
   })
   await page.reload()
   await page.waitForLoadState('networkidle')
@@ -45,7 +45,7 @@ test('mobile 375px: stacked layout, no overflow', async ({ page }) => {
 
   // Header visible
   await expect(page.locator('h1')).toBeVisible()
-  await expect(page.locator('h1')).toHaveText('YapperGram')
+  await expect(page.locator('h1')).toHaveText('YapSesh')
 
   // Flowchart area should have reasonable height
   const flowchartArea = page.locator('.min-h-\\[300px\\]')

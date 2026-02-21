@@ -13,10 +13,10 @@ test('live store: addTranscript → flushBuffer → nodes appear without reload'
   })
 
   await page.goto('http://localhost:3001')
-  await page.evaluate(() => localStorage.removeItem('yappergram-storage'))
+  await page.evaluate(() => localStorage.removeItem('yapsesh-storage'))
   await page.reload()
   await page.waitForLoadState('networkidle')
-  await expect(page.locator('h1')).toHaveText('YapperGram')
+  await expect(page.locator('h1')).toHaveText('YapSesh')
 
   // Wait for store to be exposed
   await page.waitForFunction(() => !!(window as any).__appStore, { timeout: 5000 })

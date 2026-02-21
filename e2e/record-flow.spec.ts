@@ -60,10 +60,10 @@ test('click Record → speech events → flush → flowchart nodes', async ({ pa
   })
 
   await page.goto('http://localhost:3001')
-  await page.evaluate(() => localStorage.removeItem('yappergram-storage'))
+  await page.evaluate(() => localStorage.removeItem('yapsesh-storage'))
   await page.reload()
   await page.waitForLoadState('networkidle')
-  await expect(page.locator('h1')).toHaveText('YapperGram')
+  await expect(page.locator('h1')).toHaveText('YapSesh')
   await page.waitForFunction(() => !!(window as any).__appStore, { timeout: 5000 })
   console.log('Ready')
 

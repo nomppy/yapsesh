@@ -41,7 +41,7 @@ async function seedTopics(page: import('@playwright/test').Page) {
       },
       version: 0,
     }
-    localStorage.setItem('yappergram-storage', JSON.stringify(state))
+    localStorage.setItem('yapsesh-storage', JSON.stringify(state))
   })
   await page.reload()
   await page.waitForLoadState('networkidle')
