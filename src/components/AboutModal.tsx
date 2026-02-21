@@ -92,7 +92,7 @@ export function AboutModal({ open, onClose }: { open: boolean; onClose: () => vo
               GitHub
             </a>
             <a
-              href="mailto:kennett.sun@gmail.com?subject=YapSesh%20Feedback"
+              href="mailto:feedback@sunken.site?subject=YapSesh%20Feedback"
               className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-zinc-100 text-zinc-700 text-xs font-medium rounded-lg hover:bg-zinc-200 transition-colors"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
