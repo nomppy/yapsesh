@@ -5,6 +5,7 @@ import type { Topic, Relationship, TranscriptEntry, TopicExtraction, LLMProvider
 interface AppState {
   // Recording
   isRecording: boolean
+  includeDesktopAudio: boolean
 
   // Transcript
   transcriptBuffer: string
@@ -29,6 +30,7 @@ interface AppState {
 
   // Actions
   setRecording: (on: boolean) => void
+  setIncludeDesktopAudio: (on: boolean) => void
   addTranscript: (text: string, speaker?: string) => void
   setInterimText: (text: string) => void
   clearBuffer: () => string
@@ -48,6 +50,7 @@ interface AppState {
 
 const initialState = {
   isRecording: false,
+  includeDesktopAudio: false,
   transcriptBuffer: '',
   interimText: '',
   transcriptHistory: [],
@@ -69,14 +72,18 @@ export const useAppStore = create<AppState>()(
       ...initialState,
 
       setRecording: (on) => set({ isRecording: on }),
+      setIncludeDesktopAudio: (on) => set({ includeDesktopAudio: on }),
 
-      addTranscript: (text, speaker) => set((state) => ({
-        transcriptBuffer: state.transcriptBuffer + (state.transcriptBuffer ? ' ' : '') + text,
-        transcriptHistory: [
-          ...state.transcriptHistory,
-          { text, speaker, timestamp: Date.now() },
-        ],
-      })),
+      addTranscript: (text, speaker) => set((state) => {
+        const prefix = speaker ? `[${speaker}] ` : ''
+        return {
+          transcriptBuffer: state.transcriptBuffer + (state.transcriptBuffer ? ' ' : '') + prefix + text,
+          transcriptHistory: [
+            ...state.transcriptHistory,
+            { text, speaker, timestamp: Date.now() },
+          ],
+        }
+      }),
 
       setInterimText: (text) => set({ interimText: text }),
 

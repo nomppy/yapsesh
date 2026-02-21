@@ -28,7 +28,14 @@ CRITICAL RULES — follow these exactly:
    - "related_to" means topics share a theme but weren't directly connected in conversation flow.
    - "expanded_on" means the conversation returned to a topic and added depth.
 
-6. OUTPUT
+6. SPEAKER ATTRIBUTION
+   - Transcript may contain speaker labels like [You] or [Desktop].
+   - "You" = the person using the app (mic input).
+   - "Desktop" = audio from the computer (e.g., a video call, podcast, presentation).
+   - Set the "speaker" field on topics to attribute who introduced or discussed that topic.
+   - If no speaker labels are present, leave speaker undefined.
+
+7. OUTPUT
    - Topic IDs must be lowercase-kebab-case.
    - currentTopicId must reference an existing or newly created topic ID.
    - If nothing substantive was said, return an empty topics array and set currentTopicId to the last active existing topic.`
