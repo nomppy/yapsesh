@@ -1,10 +1,14 @@
 'use client'
 
+import { useState } from 'react'
+import { useReactFlow } from '@xyflow/react'
 import { useAppStore } from '@/lib/store'
 
 export function Timeline() {
   const topics = useAppStore((s) => s.topics)
   const currentTopicId = useAppStore((s) => s.currentTopicId)
+  const { setCenter, getNodes } = useReactFlow()
+  const [flashId, setFlashId] = useState<string | null>(null)
 
   const topicList = Object.values(topics).sort((a, b) => a.createdAt - b.createdAt)
 
@@ -13,6 +17,20 @@ export function Timeline() {
   const startTime = topicList[0].createdAt
   const endTime = Date.now()
   const totalDuration = Math.max(endTime - startTime, 1000)
+
+  const handleClick = (topicId: string) => {
+    const nodes = getNodes()
+    const node = nodes.find(n => n.id === topicId)
+    if (!node) return
+
+    const x = node.position.x + (node.measured?.width ?? 280) / 2
+    const y = node.position.y + (node.measured?.height ?? 160) / 2
+    setCenter(x, y, { zoom: 1, duration: 400 })
+
+    // Flash highlight
+    setFlashId(topicId)
+    setTimeout(() => setFlashId(null), 1500)
+  }
 
   return (
     <div className="px-4 py-2 border-t border-zinc-200 bg-white">
@@ -24,19 +42,23 @@ export function Timeline() {
         {topicList.map((topic) => {
           const position = ((topic.createdAt - startTime) / totalDuration) * 100
           const isActive = topic.id === currentTopicId
+          const isFlashing = topic.id === flashId
 
           return (
             <div
               key={topic.id}
-              className="absolute -translate-x-1/2 group"
+              className="absolute -translate-x-1/2 group cursor-pointer"
               style={{ left: `${Math.min(position, 98)}%` }}
+              onClick={() => handleClick(topic.id)}
             >
               <div
                 className={`
                   w-3 h-3 rounded-full border-2 transition-all
-                  ${isActive
+                  ${isFlashing
+                    ? 'bg-indigo-500 border-indigo-300 scale-150'
+                    : isActive
                     ? 'bg-emerald-500 border-emerald-300 scale-125'
-                    : 'bg-white border-zinc-300 hover:border-zinc-400'
+                    : 'bg-white border-zinc-300 hover:border-zinc-400 hover:scale-110'
                   }
                 `}
               />
