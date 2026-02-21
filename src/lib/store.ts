@@ -39,6 +39,10 @@ interface AppState {
   setSettingsOpen: (open: boolean) => void
   setProcessing: (processing: boolean) => void
   setError: (error: string | null) => void
+  updateTopicName: (topicId: string, name: string) => void
+  updateTopicKeyPoint: (topicId: string, index: number, text: string) => void
+  deleteTopicKeyPoint: (topicId: string, index: number) => void
+  addTopicKeyPoint: (topicId: string, text: string) => void
   resetSession: () => void
 }
 
@@ -129,6 +133,33 @@ export const useAppStore = create<AppState>()(
       setSettingsOpen: (open) => set({ settingsOpen: open }),
       setProcessing: (processing) => set({ isProcessing: processing }),
       setError: (error) => set({ lastError: error }),
+
+      updateTopicName: (topicId, name) => set((state) => {
+        const topic = state.topics[topicId]
+        if (!topic) return state
+        return { topics: { ...state.topics, [topicId]: { ...topic, name, updatedAt: Date.now() } } }
+      }),
+
+      updateTopicKeyPoint: (topicId, index, text) => set((state) => {
+        const topic = state.topics[topicId]
+        if (!topic) return state
+        const keyPoints = [...topic.keyPoints]
+        keyPoints[index] = text
+        return { topics: { ...state.topics, [topicId]: { ...topic, keyPoints, updatedAt: Date.now() } } }
+      }),
+
+      deleteTopicKeyPoint: (topicId, index) => set((state) => {
+        const topic = state.topics[topicId]
+        if (!topic) return state
+        const keyPoints = topic.keyPoints.filter((_, i) => i !== index)
+        return { topics: { ...state.topics, [topicId]: { ...topic, keyPoints, updatedAt: Date.now() } } }
+      }),
+
+      addTopicKeyPoint: (topicId, text) => set((state) => {
+        const topic = state.topics[topicId]
+        if (!topic) return state
+        return { topics: { ...state.topics, [topicId]: { ...topic, keyPoints: [...topic.keyPoints, text], updatedAt: Date.now() } } }
+      }),
 
       resetSession: () => set({
         transcriptBuffer: '',
