@@ -12,7 +12,8 @@ interface TopicNodeData {
 
 function TopicNodeComponent({ data }: NodeProps) {
   const { topic, isActive } = data as TopicNodeData
-  const [expanded, setExpanded] = useState(false)
+  const [showAll, setShowAll] = useState(false)
+  const MAX_DEFAULT_POINTS = 5
 
   const age = Date.now() - topic.createdAt
   const ageMinutes = Math.floor(age / 60000)
@@ -32,7 +33,6 @@ function TopicNodeComponent({ data }: NodeProps) {
         }
       `}
       style={{ opacity }}
-      onClick={() => setExpanded(!expanded)}
     >
       <Handle type="target" position={Position.Left} className="!bg-zinc-400 !w-2 !h-2" />
 
@@ -50,10 +50,10 @@ function TopicNodeComponent({ data }: NodeProps) {
           {topic.name}
         </h3>
 
-        {/* Key points */}
-        {expanded && topic.keyPoints.length > 0 && (
+        {/* Key points — first 5 always shown */}
+        {topic.keyPoints.length > 0 && (
           <ul className="space-y-1 mb-2">
-            {topic.keyPoints.map((point, i) => (
+            {(showAll ? topic.keyPoints : topic.keyPoints.slice(0, MAX_DEFAULT_POINTS)).map((point, i) => (
               <li key={i} className="text-xs text-zinc-600 flex gap-1.5">
                 <span className="text-zinc-400 shrink-0">&#8226;</span>
                 <span>{point}</span>
@@ -62,11 +62,14 @@ function TopicNodeComponent({ data }: NodeProps) {
           </ul>
         )}
 
-        {/* Collapsed indicator */}
-        {!expanded && topic.keyPoints.length > 0 && (
-          <p className="text-[10px] text-zinc-400 mb-2">
-            {topic.keyPoints.length} point{topic.keyPoints.length !== 1 ? 's' : ''} &middot; click to expand
-          </p>
+        {/* Show more/less toggle */}
+        {topic.keyPoints.length > MAX_DEFAULT_POINTS && (
+          <button
+            onClick={() => setShowAll(!showAll)}
+            className="text-[10px] text-indigo-500 hover:text-indigo-600 font-medium mb-2"
+          >
+            {showAll ? 'Show less' : `+${topic.keyPoints.length - MAX_DEFAULT_POINTS} more`}
+          </button>
         )}
 
         {/* Footer */}
