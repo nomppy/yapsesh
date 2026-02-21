@@ -7,6 +7,7 @@ import { useAppStore } from '@/lib/store'
 export function Timeline() {
   const topics = useAppStore((s) => s.topics)
   const currentTopicId = useAppStore((s) => s.currentTopicId)
+  const isRecording = useAppStore((s) => s.isRecording)
   const { setCenter, getNodes } = useReactFlow()
   const [flashId, setFlashId] = useState<string | null>(null)
 
@@ -15,7 +16,8 @@ export function Timeline() {
   if (topicList.length === 0) return null
 
   const startTime = topicList[0].createdAt
-  const endTime = Date.now()
+  const lastTopicTime = Math.max(...topicList.map(t => t.updatedAt ?? t.createdAt))
+  const endTime = isRecording ? Date.now() : lastTopicTime
   const totalDuration = Math.max(endTime - startTime, 1000)
 
   const handleClick = (topicId: string) => {

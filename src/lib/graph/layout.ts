@@ -12,7 +12,7 @@ export function computeLayout(
 ): { nodes: Node[]; edges: Edge[] } {
   const g = new dagre.graphlib.Graph()
   g.setDefaultEdgeLabel(() => ({}))
-  g.setGraph({ rankdir: 'LR', nodesep: 50, ranksep: 100 })
+  g.setGraph({ rankdir: 'LR', nodesep: 80, ranksep: 180, marginx: 40, marginy: 40 })
 
   const topicList = Object.values(topics)
 

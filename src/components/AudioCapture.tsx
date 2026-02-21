@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useCallback, useEffect } from 'react'
+import { useRef, useCallback, useEffect, useState } from 'react'
 import { useAppStore } from '@/lib/store'
 import { WebSpeechProvider } from '@/lib/speech/web-speech'
 import { DeepgramProvider } from '@/lib/speech/deepgram'
@@ -153,14 +153,18 @@ export function AudioCapture() {
     flushBuffer()
   }, [setRecording, setInterimText, flushBuffer, clearTimers])
 
+  const [canDesktopAudio, setCanDesktopAudio] = useState(false)
+
+  useEffect(() => {
+    setCanDesktopAudio(supportsDesktopAudio())
+  }, [])
+
   useEffect(() => {
     return () => {
       providerRef.current?.stop()
       clearTimers()
     }
   }, [clearTimers])
-
-  const canDesktopAudio = supportsDesktopAudio()
 
   return (
     <div className="flex items-center gap-3">
