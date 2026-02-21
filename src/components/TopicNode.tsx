@@ -34,7 +34,7 @@ function TopicNodeComponent({ data }: NodeProps) {
       style={{ opacity }}
       onClick={() => setExpanded(!expanded)}
     >
-      <Handle type="target" position={Position.Top} className="!bg-zinc-400 !w-2 !h-2" />
+      <Handle type="target" position={Position.Left} className="!bg-zinc-400 !w-2 !h-2" />
 
       <div className="p-3">
         {/* Status indicator */}
@@ -77,7 +77,7 @@ function TopicNodeComponent({ data }: NodeProps) {
         </div>
       </div>
 
-      <Handle type="source" position={Position.Bottom} className="!bg-zinc-400 !w-2 !h-2" />
+      <Handle type="source" position={Position.Right} className="!bg-zinc-400 !w-2 !h-2" />
     </div>
   )
 }
