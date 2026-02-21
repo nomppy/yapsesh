@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import {
   ReactFlow,
   Background,
@@ -35,7 +35,8 @@ export function FlowChart() {
 
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
-  const { fitView } = useReactFlow()
+  const { fitView, setCenter } = useReactFlow()
+  const hasInitialFit = useRef(false)
 
   const layout = useMemo(
     () => computeLayout(topics, relationships, currentTopicId),
@@ -43,21 +44,29 @@ export function FlowChart() {
   )
 
   useEffect(() => {
+    const hadNodes = nodes.length > 0
     setNodes(layout.nodes)
     setEdges(layout.edges)
 
-    // Auto-fit with a short delay for animation
-    const timer = setTimeout(() => {
-      fitView({ padding: 0.2, duration: 300 })
-    }, 50)
-    return () => clearTimeout(timer)
-  }, [layout, setNodes, setEdges, fitView])
+    if (layout.nodes.length > 0 && !hadNodes) {
+      // First time nodes appear — fit to view
+      const timer = setTimeout(() => {
+        fitView({ padding: 0.3, duration: 300 })
+        hasInitialFit.current = true
+      }, 50)
+      return () => clearTimeout(timer)
+    }
+    // On subsequent updates, don't fitView — let the user stay where they are
+  }, [layout, setNodes, setEdges, fitView, nodes.length])
 
   const topicCount = Object.keys(topics).length
 
   const onInit = useCallback(() => {
-    fitView({ padding: 0.2 })
-  }, [fitView])
+    if (topicCount > 0) {
+      fitView({ padding: 0.3 })
+      hasInitialFit.current = true
+    }
+  }, [fitView, topicCount])
 
   return (
     <div className="w-full h-full relative">
@@ -80,7 +89,7 @@ export function FlowChart() {
         edgeTypes={edgeTypes}
         fitView
         proOptions={{ hideAttribution: true }}
-        minZoom={0.3}
+        minZoom={0.5}
         maxZoom={2}
         defaultEdgeOptions={{
           type: 'topicEdge',
