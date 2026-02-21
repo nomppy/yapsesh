@@ -1,37 +1,72 @@
 import type { Topic, TopicExtraction } from '@/types'
 
-export const EXTRACTION_SYSTEM_PROMPT = `You are a conversation analyst. You listen to discussion transcripts and extract discrete topics being discussed.
+export const EXTRACTION_SYSTEM_PROMPT = `You are a conversation topic mapper. Your job is to maintain a clean, consolidated map of discussion topics from a live conversation.
 
-For each chunk of transcript, you must:
-1. Identify distinct topics being discussed (short 3-5 word labels)
-2. Extract 2-4 key points per topic as brief bullet points
-3. Determine relationships between topics (how one led to another, contradictions, expansions, etc.)
-4. Track which topic is currently being actively discussed
+CRITICAL RULES — follow these exactly:
 
-IMPORTANT RULES:
-- Topic IDs must be lowercase-kebab-case (e.g., "api-performance", "database-caching")
-- If a topic was already identified in previous context, update it rather than creating a new one (set isNew: false and provide existingTopicId)
-- Only create genuinely new topics when the conversation shifts to something not yet captured
-- Relationships should reflect the actual flow of conversation
-- The currentTopicId must reference an existing or newly created topic ID`
+1. MERGE FIRST, CREATE RARELY
+   - When new speech relates to an existing topic, ALWAYS update that topic (isNew: false, existingTopicId set) rather than creating a new one.
+   - Only create a new topic when the conversation genuinely shifts to a subject not covered by ANY existing topic.
+   - A good topic map for a 30-minute conversation should have 5-10 topics, not 30.
+
+2. IGNORE FILLER
+   - Do NOT create topics for: laughter, agreements ("yeah", "right"), incomplete sentences, filler words, casual acknowledgments, greetings, or meta-conversation ("what were we talking about").
+   - If a transcript chunk is purely filler with no substantive content, return zero new topics and just set currentTopicId to the most recent existing topic.
+
+3. TOPIC QUALITY
+   - Topic names should be meaningful subjects: "Housing Market Affordability", "Redis Caching Strategy" — NOT "Agreement Response", "Incomplete Statement", "Casual Remark".
+   - Each topic should represent a real conversational subject that someone would want to remember.
+   - Key points should be specific facts, opinions, or decisions — not descriptions of speech acts.
+
+4. UPDATING EXISTING TOPICS
+   - When updating, only add genuinely new key points that aren't already captured.
+   - Don't repeat information already in the existing topic's key points.
+
+5. RELATIONSHIPS
+   - Only create relationships between topics that have a real conversational connection.
+   - "led_to" means one topic directly caused discussion of another.
+   - "related_to" means topics share a theme but weren't directly connected in conversation flow.
+   - "expanded_on" means the conversation returned to a topic and added depth.
+
+6. OUTPUT
+   - Topic IDs must be lowercase-kebab-case.
+   - currentTopicId must reference an existing or newly created topic ID.
+   - If nothing substantive was said, return an empty topics array and set currentTopicId to the last active existing topic.`
 
 export function buildExtractionPrompt(
   transcript: string,
   existingTopics: Record<string, Topic>
 ): string {
-  const topicContext = Object.values(existingTopics)
-  const contextStr = topicContext.length > 0
-    ? `\n\nPreviously identified topics:\n${topicContext.map(t =>
-        `- ${t.id}: "${t.name}" (key points: ${t.keyPoints.join('; ')})`
-      ).join('\n')}`
-    : ''
+  const topicList = Object.values(existingTopics)
 
-  return `Analyze this transcript chunk and extract topics, key points, and relationships.${contextStr}
+  if (topicList.length === 0) {
+    return `This is the start of a new conversation. Extract the main topics discussed.
 
 Transcript:
 """
 ${transcript}
 """`
+  }
+
+  const topicSummary = topicList.map(t =>
+    `- ID: "${t.id}" | Name: "${t.name}" | Key points: ${t.keyPoints.join('; ')}`
+  ).join('\n')
+
+  return `Here are the topics identified so far in this conversation:
+
+${topicSummary}
+
+New transcript chunk to analyze:
+"""
+${transcript}
+"""
+
+For each piece of the new transcript, decide:
+- Does it fit an existing topic above? → Update that topic (isNew: false, existingTopicId = the topic's ID, add only NEW key points not already listed).
+- Is it a genuinely new subject? → Create a new topic (isNew: true).
+- Is it just filler/agreement/laughter? → Skip it entirely.
+
+Return your analysis.`
 }
 
 export async function extractTopics(
