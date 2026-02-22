@@ -95,18 +95,22 @@ export const useAppStore = create<AppState>()(
 
       processTopics: (extraction) => set((state) => {
         const newTopics = { ...state.topics }
+        let newTopicIndex = 0
 
         for (const topic of extraction.topics) {
           if (topic.isNew) {
             const existingCount = Object.keys(newTopics).length
+            // Stagger timestamps within a batch so timeline dots don't stack
+            const stagger = newTopicIndex * 500
+            newTopicIndex++
             newTopics[topic.id] = {
               id: topic.id,
               name: topic.name,
               keyPoints: topic.keyPoints,
               speaker: topic.speaker,
               colorIndex: existingCount,
-              createdAt: Date.now(),
-              updatedAt: Date.now(),
+              createdAt: Date.now() + stagger,
+              updatedAt: Date.now() + stagger,
             }
           } else if (topic.existingTopicId && newTopics[topic.existingTopicId]) {
             const existing = newTopics[topic.existingTopicId]

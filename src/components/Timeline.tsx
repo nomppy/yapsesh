@@ -19,7 +19,16 @@ export function Timeline() {
   const startTime = topicList[0].createdAt
   const lastTopicTime = Math.max(...topicList.map(t => t.updatedAt ?? t.createdAt))
   const endTime = isRecording ? Date.now() : lastTopicTime
-  const totalDuration = Math.max(endTime - startTime, 1000)
+  const totalDuration = endTime - startTime
+
+  // Fall back to even spacing when topics are too close together
+  const useEvenSpacing = totalDuration < 2000 && topicList.length > 1
+  const getPosition = (index: number, createdAt: number) => {
+    if (useEvenSpacing) {
+      return ((index + 0.5) / topicList.length) * 100
+    }
+    return ((createdAt - startTime) / Math.max(totalDuration, 1000)) * 100
+  }
 
   const handleClick = (topicId: string) => {
     const nodes = getNodes()
@@ -41,8 +50,8 @@ export function Timeline() {
         <div className="absolute inset-x-0 h-[2px] bg-stone-200 top-1/2 rounded-full" />
 
         {/* Topic dots with color */}
-        {topicList.map((topic) => {
-          const position = ((topic.createdAt - startTime) / totalDuration) * 100
+        {topicList.map((topic, index) => {
+          const position = getPosition(index, topic.createdAt)
           const isActive = topic.id === currentTopicId
           const isFlashing = topic.id === flashId
           const color = getTopicColor(topic.colorIndex ?? 0)
@@ -51,7 +60,7 @@ export function Timeline() {
             <div
               key={topic.id}
               className="absolute -translate-x-1/2 group cursor-pointer"
-              style={{ left: `${Math.min(position, 98)}%` }}
+              style={{ left: `${Math.max(2, Math.min(position, 98))}%` }}
               onClick={() => handleClick(topic.id)}
             >
               <div
