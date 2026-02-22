@@ -7,6 +7,7 @@ import { TranscriptPanel } from '@/components/TranscriptPanel'
 import { Timeline } from '@/components/Timeline'
 import { TopBar } from '@/components/TopBar'
 import { SettingsModal } from '@/components/SettingsModal'
+import { OnboardingOverlay } from '@/components/OnboardingOverlay'
 import { useAppStore } from '@/lib/store'
 
 export default function Home() {
@@ -37,6 +38,7 @@ export default function Home() {
           <Timeline />
         </div>
         <SettingsModal />
+        <OnboardingOverlay />
       </div>
     </ReactFlowProvider>
   )
