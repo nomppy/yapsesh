@@ -21,7 +21,7 @@ export function TopBar() {
   return (
     <div>
       {/* Title bar */}
-      <div className="retro-title-bar" style={{ borderBottom: '1px solid #4A6B42' }}>
+      <div className="retro-title-bar" style={{ borderBottom: '2px solid #4A3A28' }}>
         <div className="flex items-center gap-2">
           <span className="text-[10px]">&#127793;</span>
           <span>YapSesh.exe — Field Station</span>
@@ -34,7 +34,7 @@ export function TopBar() {
         </div>
       </div>
       {/* Toolbar */}
-      <div className="flex items-center justify-between px-2 py-1.5" style={{ background: '#E8E0D4', borderBottom: '2px groove #C4B8A4' }}>
+      <div className="flex items-center justify-between px-2 py-1.5" style={{ background: 'linear-gradient(180deg, #E8DCC8 0%, #D8CCB8 100%)', borderBottom: '2px groove #B8A888' }}>
         <div className="flex items-center gap-1">
           <AudioCapture />
         </div>

@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <ReactFlowProvider>
       {/* Desktop background */}
-      <div className="flex flex-col h-screen" style={{ background: 'linear-gradient(180deg, #C4D1BF 0%, #D4DDD0 40%, #DDE5D8 100%)' }}>
+      <div className="flex flex-col h-screen" style={{ background: 'linear-gradient(180deg, #A89878 0%, #B8A888 30%, #C8B8A0 100%)' }}>
         {/* Main retro window */}
         <div className="flex flex-col flex-1 m-2 md:m-3 retro-window overflow-hidden relative scanlines">
           <TopBar />
@@ -36,9 +36,9 @@ export default function Home() {
           </div>
         </div>
         {/* Desktop dock / status bar */}
-        <div className="shrink-0 flex items-center justify-between px-3 py-1" style={{ background: '#B8C4B4', borderTop: '2px outset #D4DDD0' }}>
-          <span className="text-[10px] font-mono-display font-bold uppercase" style={{ color: '#5B7553' }}>YapSesh v1.0</span>
-          <span className="text-[10px] font-mono-display" style={{ color: '#6B7F6B' }}>{new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
+        <div className="shrink-0 flex items-center justify-between px-3 py-1.5" style={{ background: 'linear-gradient(180deg, #A08868 0%, #8A7858 100%)', borderTop: '2px outset #C8B898', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.15)' }}>
+          <span className="text-[10px] font-mono-display font-bold uppercase" style={{ color: '#F2EBE0' }}>YapSesh v1.0</span>
+          <span className="text-[10px] font-mono-display" style={{ color: '#D8C8A8' }}>{new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
         </div>
         <SettingsModal />
         <OnboardingOverlay />

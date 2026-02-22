@@ -13,30 +13,21 @@ function RetroEmptyState() {
   return (
     <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
       <div className="text-center">
-        {/* Retro terminal / field notes display */}
-        <div className="retro-window mx-auto" style={{ width: 320, boxShadow: '4px 4px 0px rgba(0,0,0,0.15)' }}>
+        <div className="retro-window mx-auto" style={{ width: 300, boxShadow: '4px 4px 0px rgba(0,0,0,0.2)' }}>
           <div className="retro-title-bar">
-            <span>FIELD_NOTES.exe</span>
-            <div className="flex gap-1"><div className="win-ctrl" /><div className="win-ctrl" /></div>
+            <span>YapSesh</span>
+            <div className="flex gap-1"><div className="win-ctrl" /></div>
           </div>
-          <div className="p-5 text-center" style={{ background: '#1A2A1A' }}>
-            {/* Pixel tree */}
-            <div className="font-mono-display text-[11px] leading-tight mb-4 whitespace-pre" style={{ color: '#5B7553' }}>{`     /\\
-    /  \\
-   /    \\
-  /______\\
-     ||`}</div>
-            <p className="text-sm font-mono-display font-bold mb-1" style={{ color: '#7BA56E' }}>
-              AWAITING INPUT<span className="blink">_</span>
+          <div className="p-6 text-center parchment-bg">
+            <p className="text-sm font-mono-display font-bold mb-2" style={{ color: '#5A4A38' }}>
+              Nothing here yet<span className="blink">_</span>
             </p>
-            <p className="text-[11px] font-mono-display" style={{ color: '#5B7553' }}>
-              Plant a seed — press RECORD
+            <p className="text-[11px] font-mono-display" style={{ color: '#8A7A68' }}>
+              Press RECORD and start talking.
             </p>
-            <div className="mt-3 text-[10px] font-mono-display" style={{ color: '#4A5A4A' }}>
-              ================================<br />
-              YapSesh Field Station v1.0<br />
-              Ready.
-            </div>
+            <p className="text-[11px] font-mono-display mt-1" style={{ color: '#8A7A68' }}>
+              Topics will show up here.
+            </p>
           </div>
         </div>
       </div>
@@ -58,10 +49,10 @@ export function FlowChart() {
   const topicCount = Object.keys(topics).length
   const onInit = useCallback(() => { if (topicCount > 0) { fitView({ padding: 0.3 }); hasInitialFit.current = true } }, [fitView, topicCount])
   return (
-    <div className="w-full h-full relative" style={{ background: '#E8EDE4' }}>
+    <div className="w-full h-full relative parchment-bg" style={{ background: '#F0E8D8' }}>
       {topicCount === 0 && <RetroEmptyState />}
       <ReactFlow nodes={nodes} edges={edges} onNodesChange={onNodesChange} onEdgesChange={onEdgesChange} onInit={onInit} nodeTypes={nodeTypes} edgeTypes={edgeTypes} fitView proOptions={{ hideAttribution: true }} minZoom={0.5} maxZoom={2} defaultEdgeOptions={{ type: 'topicEdge' }}>
-        <Background color="#B8C4B4" gap={20} size={0.5} />
+        <Background color="#D0C4A8" gap={24} size={0.5} />
         <Controls />
         {topicCount >= 8 && (<MiniMap nodeStrokeColor="#8B9B85" nodeColor={(node) => { const t = node.data?.topic as { colorIndex?: number } | undefined; if (node.data?.isActive) return '#C4956A'; if (t?.colorIndex !== undefined) return getTopicColor(t.colorIndex).border; return '#D4DDD0' }} />)}
       </ReactFlow>

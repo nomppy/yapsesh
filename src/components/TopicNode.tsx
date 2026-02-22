@@ -35,19 +35,18 @@ function TopicNodeComponent({ data }: NodeProps) {
   return (
     <div className="select-none" style={{ opacity, minWidth: 220, maxWidth: 280 }}>
       {/* Retro window card */}
-      <div className="retro-window" style={{ boxShadow: isActive ? `3px 3px 0px rgba(0,0,0,0.2), 0 0 0 2px ${color.border}40` : '3px 3px 0px rgba(0,0,0,0.2)' }}>
-        {/* Mini title bar */}
-        <div className="flex items-center gap-2 px-2 py-1" style={{ background: isActive ? color.border : '#8B9B85', borderBottom: '1px solid #A09080' }}>
+      <div className="retro-window" style={{ boxShadow: isActive ? `4px 4px 0px rgba(0,0,0,0.25), 0 0 0 2px ${color.border}50` : '3px 3px 0px rgba(0,0,0,0.2)' }}>
+        {/* Mini title bar — wood colored */}
+        <div className="flex items-center gap-2 px-2 py-1" style={{ background: isActive ? color.border : '#8A7858', borderBottom: `2px solid ${isActive ? color.border : '#6A5A48'}` }}>
           <div className="flex gap-1">
-            <div className="w-2.5 h-2.5" style={{ background: isActive ? '#C4956A' : '#A09080', border: '1px outset #ccc' }} />
-            <div className="w-2.5 h-2.5" style={{ background: '#A09080', border: '1px outset #ccc' }} />
+            <div className="w-2.5 h-2.5" style={{ background: isActive ? '#C4956A' : '#A89878', border: '1px outset #C8B898' }} />
           </div>
-          <span className="text-[9px] font-mono-display font-bold uppercase tracking-wider" style={{ color: '#F5F0E8' }}>
-            {isActive ? '● ACTIVE' : 'NOTED'}
+          <span className="text-[9px] font-mono-display font-bold uppercase tracking-wider" style={{ color: '#F2EBE0' }}>
+            {isActive ? '&#9679; ACTIVE' : 'NOTED'}
           </span>
         </div>
         <Handle type="target" position={Position.Left} className="!w-2.5 !h-2.5 !border-2" style={{ background: color.border, borderColor: '#F5F0E8', borderRadius: 0 }} />
-        <div className="p-3" style={{ background: color.bg }}>
+        <div className="p-3 parchment-bg" style={{ background: color.bg }}>
           {/* Title */}
           {editingTitle ? (
             <input ref={titleInputRef} defaultValue={topic.name} onBlur={(e) => handleTitleSubmit(e.target.value)}

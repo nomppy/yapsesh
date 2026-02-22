@@ -1,23 +1,27 @@
 @import "tailwindcss";
 :root {
-  --background: #D4DDD0;
-  --foreground: #2C3E2C;
-  --desktop: #C4D1BF;
-  --window-bg: #F5F0E8;
-  --window-border-light: #E8E0D4;
-  --window-border-dark: #8B7D6B;
-  --title-bar: #5B7553;
-  --title-bar-inactive: #8B9B85;
-  --title-text: #F5F0E8;
+  --background: #C8B8A0;
+  --foreground: #2C2418;
+  --desktop: #B8A888;
+  --window-bg: #F2EBE0;
+  --window-border-light: #D8CDB8;
+  --window-border-dark: #7A6850;
+  --title-bar: #5A4A38;
+  --title-bar-inactive: #8A7A68;
+  --title-text: #F2EBE0;
   --accent: #5B7553;
   --amber: #C4956A;
   --amber-light: #D4A87A;
-  --cream: #F5F0E8;
-  --bark: #6B5D4F;
-  --moss-gray: #6B7F6B;
-  --deep-forest: #2C3E2C;
+  --cream: #F2EBE0;
+  --bark: #5A4A38;
+  --moss-gray: #7A8A6A;
+  --deep-forest: #2C2418;
   --leaf: #7BA56E;
   --fern: #4A6B42;
+  --wood-light: #D8C8A8;
+  --wood-mid: #B8A080;
+  --wood-dark: #8A7458;
+  --parchment: #F5EDD8;
   --font-serif: var(--font-serif);
   --font-mono-display: var(--font-mono-display);
 }
@@ -32,20 +36,28 @@ body {
   color: var(--foreground);
   font-family: var(--font-mono-display), var(--font-geist-mono), 'Courier New', monospace;
   cursor: default;
+  background-image:
+    repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(0,0,0,0.02) 60px, rgba(0,0,0,0.02) 61px),
+    repeating-linear-gradient(0deg, transparent, transparent 8px, rgba(0,0,0,0.01) 8px, rgba(0,0,0,0.01) 9px);
 }
 .font-serif { font-family: var(--font-serif), Georgia, 'Times New Roman', serif; }
 .font-mono-display { font-family: var(--font-mono-display), var(--font-geist-mono), 'Courier New', monospace; }
-/* Noise/grain texture — subtle paper feel */
+/* Noise/grain texture — wood grain feel */
 body::before {
-  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-repeat: repeat; background-size: 200px 200px;
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.4 0.9' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat; background-size: 300px 300px;
 }
-/* RETRO WINDOW STYLES */
+/* RETRO WINDOW STYLES — cottage wood frame */
 .retro-window {
   background: var(--window-bg);
-  border: 2px solid var(--window-border-dark);
-  box-shadow: 3px 3px 0px rgba(0,0,0,0.2), inset 1px 1px 0px var(--window-border-light), inset -1px -1px 0px var(--window-border-dark);
+  border: 3px solid var(--wood-dark);
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.25), inset 1px 1px 0px var(--wood-light), inset -1px -1px 0px var(--wood-dark);
+}
+/* Parchment texture inside windows */
+.parchment-bg {
+  background: var(--parchment);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.96 0 0 0 0 0.93 0 0 0 0 0.85 0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23p)'/%3E%3C/svg%3E");
 }
 .retro-title-bar {
   background: var(--title-bar);
@@ -66,22 +78,22 @@ body::before {
 }
 .retro-btn {
   display: inline-flex; align-items: center; justify-content: center;
-  background: var(--window-bg);
-  border: 2px outset var(--window-border-light);
+  background: linear-gradient(180deg, var(--window-bg) 0%, #E0D8C8 100%);
+  border: 3px outset var(--wood-light);
   color: var(--deep-forest);
   font-family: var(--font-mono-display), monospace;
   font-size: 11px; font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  padding: 4px 12px;
+  padding: 5px 14px;
   cursor: pointer;
   transition: none;
 }
-.retro-btn:hover { background: #E8E0D4; }
+.retro-btn:hover { background: linear-gradient(180deg, #E8E0D0 0%, #D8D0C0 100%); }
 .retro-btn:active, .retro-btn-pressed {
   border-style: inset;
-  background: #DDD5C8;
-  padding: 5px 11px 3px 13px;
+  background: #D0C8B8;
+  padding: 6px 13px 4px 15px;
 }
 .retro-btn-accent {
   background: var(--accent);
@@ -97,7 +109,7 @@ body::before {
 }
 .retro-btn-amber:hover { background: #B4855A; }
 .retro-btn-amber:active { background: #A47550; border-style: inset; }
-.win-ctrl { width: 14px; height: 14px; border: 2px outset var(--window-border-light); background: var(--window-bg); display: inline-block; cursor: pointer; }
+.win-ctrl { width: 14px; height: 14px; border: 2px outset var(--wood-light); background: var(--wood-light); display: inline-block; cursor: pointer; }
 .win-ctrl:active { border-style: inset; }
 /* Retro input */
 .retro-input {

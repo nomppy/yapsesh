@@ -15,7 +15,7 @@ export function TranscriptPanel() {
     return rel.length > 0 ? getTopicColor(rel[0].colorIndex ?? 0) : null
   }
   return (
-    <div className="flex flex-col h-full" style={{ borderLeft: '2px groove #C4B8A4', background: '#F5F0E8' }}>
+    <div className="flex flex-col h-full" style={{ borderLeft: '3px groove #B8A888', background: '#F2EBE0' }}>
       {/* Panel title bar */}
       <div className="retro-title-bar retro-title-bar-inactive" style={{ borderBottom: '1px solid #A09080' }}>
         <span>FIELD_LOG.txt</span>
