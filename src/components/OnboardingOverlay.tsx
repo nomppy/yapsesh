@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useAppStore } from '@/lib/store'
 
 const STORAGE_KEY = 'yapsesh-onboarding-seen'
 
@@ -41,6 +42,7 @@ const steps = [
 
 export function OnboardingOverlay() {
   const [visible, setVisible] = useState(false)
+  const setSettingsOpen = useAppStore((s) => s.setSettingsOpen)
 
   useEffect(() => {
     if (!localStorage.getItem(STORAGE_KEY)) {
@@ -55,13 +57,18 @@ export function OnboardingOverlay() {
     setVisible(false)
   }
 
+  const openSettings = () => {
+    dismiss()
+    setSettingsOpen(true)
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm" onClick={dismiss}>
       <div className="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 p-8" onClick={(e) => e.stopPropagation()}>
         <h2 className="text-xl font-bold text-zinc-900 text-center mb-1">Welcome to YapSesh</h2>
         <p className="text-sm text-zinc-500 text-center mb-6">Talk freely, see your thoughts mapped out.</p>
 
-        <div className="space-y-5 mb-8">
+        <div className="space-y-5 mb-6">
           {steps.map((step, i) => (
             <div key={i} className="flex items-center gap-4">
               <div className="shrink-0 w-12 h-12 rounded-lg bg-zinc-50 flex items-center justify-center">
@@ -73,6 +80,17 @@ export function OnboardingOverlay() {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="rounded-lg bg-amber-50 border border-amber-200 px-4 py-3 mb-6">
+          <p className="text-sm text-amber-800 font-medium">Bring your own API key</p>
+          <p className="text-xs text-amber-700 mt-0.5">
+            Set it in{' '}
+            <button onClick={openSettings} className="underline font-medium hover:text-amber-900">
+              Settings
+            </button>
+            {' '}before recording. Supports OpenAI, DeepSeek, and Anthropic.
+          </p>
         </div>
 
         <button
