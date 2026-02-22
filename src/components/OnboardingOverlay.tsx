@@ -1,107 +1,66 @@
 'use client'
-
 import { useState, useEffect } from 'react'
 import { useAppStore } from '@/lib/store'
-
 const STORAGE_KEY = 'yapsesh-onboarding-seen'
-
-const steps = [
-  {
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-orange-400">
-        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-        <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-        <line x1="12" y1="19" x2="12" y2="23" />
-        <line x1="8" y1="23" x2="16" y2="23" />
-      </svg>
-    ),
-    title: 'Just start talking. About anything.',
-  },
-  {
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-violet-400">
-        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-      </svg>
-    ),
-    title: "We'll figure out what you're actually talking about.",
-  },
-  {
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-400">
-        <circle cx="6" cy="6" r="3" />
-        <circle cx="18" cy="18" r="3" />
-        <circle cx="18" cy="6" r="3" />
-        <line x1="8.12" y1="7.88" x2="15.88" y2="16.12" />
-        <line x1="15.88" y1="7.88" x2="15.88" y2="7.88" />
-        <path d="M9 6h6" />
-      </svg>
-    ),
-    title: 'Watch your thoughts connect into a map.',
-  },
-]
-
 export function OnboardingOverlay() {
   const [visible, setVisible] = useState(false)
+  const [step, setStep] = useState(0)
   const setSettingsOpen = useAppStore((s) => s.setSettingsOpen)
-
-  useEffect(() => {
-    if (!localStorage.getItem(STORAGE_KEY)) {
-      setVisible(true)
-    }
-  }, [])
-
+  useEffect(() => { if (!localStorage.getItem(STORAGE_KEY)) setVisible(true) }, [])
   if (!visible) return null
-
-  const dismiss = () => {
-    localStorage.setItem(STORAGE_KEY, '1')
-    setVisible(false)
-  }
-
-  const openSettings = () => {
-    dismiss()
-    setSettingsOpen(true)
-  }
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm" onClick={dismiss}>
-      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 p-8" onClick={(e) => e.stopPropagation()}>
-        <h2 className="text-2xl font-serif text-stone-900 text-center mb-1" style={{ fontStyle: 'italic' }}>
-          Hey, welcome to <span className="squiggly">YapSesh</span>
-        </h2>
-        <p className="text-sm text-stone-500 text-center mb-6">Where your yapping becomes something visual.</p>
-
-        <div className="space-y-5 mb-6">
-          {steps.map((step, i) => (
-            <div key={i} className="flex items-center gap-4">
-              <div className="shrink-0 w-12 h-12 rounded-xl bg-stone-50 flex items-center justify-center">
-                {step.icon}
-              </div>
-              <div>
-                <span className="text-[11px] font-medium text-stone-400">{i + 1}.</span>
-                <p className="text-sm font-medium text-stone-700">{step.title}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="rounded-xl bg-amber-50/80 border border-amber-200/60 px-4 py-3 mb-6">
-          <p className="text-sm text-amber-800 font-medium">One thing first — bring your own API key</p>
-          <p className="text-xs text-amber-700 mt-0.5">
-            Pop into{' '}
-            <button onClick={openSettings} className="underline font-medium hover:text-amber-900">
-              Settings
-            </button>
-            {' '}and paste one in. Works with OpenAI, DeepSeek, Anthropic, or Ollama.
-          </p>
-        </div>
-
-        <button
-          onClick={dismiss}
-          className="w-full bg-stone-900 text-white rounded-xl py-2.5 text-sm font-medium hover:bg-stone-800 transition-colors"
-        >
-          Let's go
-        </button>
+  const dismiss = () => { localStorage.setItem(STORAGE_KEY, '1'); setVisible(false) }
+  const openSettings = () => { dismiss(); setSettingsOpen(true) }
+  const steps = [
+    { title: 'Welcome', content: (
+      <div className="text-center">
+        <div className="font-mono-display text-[11px] leading-tight mb-4 whitespace-pre" style={{ color: '#5B7553' }}>{`     /\\
+    /  \\
+   /    \\
+  /______\\
+     ||`}</div>
+        <p className="text-sm font-serif mb-2" style={{ color: '#2C3E2C', fontStyle: 'italic' }}>Welcome to your digital thinking garden.</p>
+        <p className="text-[11px] font-mono-display" style={{ color: '#6B7F6B' }}>YapSesh listens while you talk and maps your thoughts into a living flowchart.</p>
       </div>
-    </div>
-  )
+    )},
+    { title: 'How It Works', content: (
+      <div className="space-y-3">
+        <div className="flex gap-3 items-start"><span className="text-[11px] font-mono-display font-bold shrink-0" style={{ color: '#5B7553' }}>1.</span><p className="text-[12px]" style={{ color: '#2C3E2C' }}>Press <strong>RECORD</strong> and start talking about anything.</p></div>
+        <div className="flex gap-3 items-start"><span className="text-[11px] font-mono-display font-bold shrink-0" style={{ color: '#5B7553' }}>2.</span><p className="text-[12px]" style={{ color: '#2C3E2C' }}>AI identifies your topics and how they connect.</p></div>
+        <div className="flex gap-3 items-start"><span className="text-[11px] font-mono-display font-bold shrink-0" style={{ color: '#5B7553' }}>3.</span><p className="text-[12px]" style={{ color: '#2C3E2C' }}>Watch your ideas grow into a map you can explore.</p></div>
+      </div>
+    )},
+    { title: 'System Requirements', content: (
+      <div>
+        <div className="p-3 mb-3" style={{ background: '#F5EDE0', border: '2px inset #C4B8A4' }}>
+          <p className="text-[11px] font-mono-display font-bold uppercase mb-1" style={{ color: '#C4956A' }}>&#9888; API KEY REQUIRED</p>
+          <p className="text-[12px]" style={{ color: '#6B5D4F' }}>YapSesh needs an AI provider to identify topics. Open <button onClick={openSettings} className="underline font-bold" style={{ color: '#5B7553' }}>Control Panel</button> and enter an API key.</p>
+          <p className="text-[10px] font-mono-display mt-2" style={{ color: '#8B9B85' }}>Supports: Claude, OpenAI, DeepSeek, Ollama</p>
+        </div>
+      </div>
+    )},
+  ]
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.3)' }} onClick={dismiss}>
+      <div className="retro-window" style={{ width: 420, maxWidth: '90vw', boxShadow: '5px 5px 0px rgba(0,0,0,0.25)' }} onClick={(e) => e.stopPropagation()}>
+        <div className="retro-title-bar">
+          <span>Welcome to YapSesh v1.0 — Step {step + 1}/{steps.length}</span>
+          <div className="flex gap-1"><div className="win-ctrl" onClick={dismiss} style={{ background: '#A07060' }} /></div>
+        </div>
+        <div className="p-5" style={{ background: '#F5F0E8', minHeight: 200 }}>
+          <h3 className="text-sm font-mono-display font-bold uppercase mb-4" style={{ color: '#5B7553', borderBottom: '1px solid #D4CFC4', paddingBottom: 8 }}>{steps[step].title}</h3>
+          {steps[step].content}
+        </div>
+        <div className="flex justify-between px-4 py-3" style={{ background: '#E8E0D4', borderTop: '2px groove #C4B8A4' }}>
+          <button onClick={dismiss} className="retro-btn text-[10px]">CANCEL</button>
+          <div className="flex gap-2">
+            {step > 0 && <button onClick={() => setStep(s => s - 1)} className="retro-btn text-[10px]">&lt; BACK</button>}
+            {step < steps.length - 1 ? (
+              <button onClick={() => setStep(s => s + 1)} className="retro-btn retro-btn-accent text-[10px]">NEXT &gt;</button>
+            ) : (
+              <button onClick={dismiss} className="retro-btn retro-btn-accent text-[10px]">LET&apos;S GROW</button>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>)
 }

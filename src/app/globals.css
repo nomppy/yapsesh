@@ -1,115 +1,137 @@
 @import "tailwindcss";
-
 :root {
-  --background: #FAFAF8;
-  --foreground: #1C1917;
+  --background: #D4DDD0;
+  --foreground: #2C3E2C;
+  --desktop: #C4D1BF;
+  --window-bg: #F5F0E8;
+  --window-border-light: #E8E0D4;
+  --window-border-dark: #8B7D6B;
+  --title-bar: #5B7553;
+  --title-bar-inactive: #8B9B85;
+  --title-text: #F5F0E8;
+  --accent: #5B7553;
+  --amber: #C4956A;
+  --amber-light: #D4A87A;
+  --cream: #F5F0E8;
+  --bark: #6B5D4F;
+  --moss-gray: #6B7F6B;
+  --deep-forest: #2C3E2C;
+  --leaf: #7BA56E;
+  --fern: #4A6B42;
   --font-serif: var(--font-serif);
+  --font-mono-display: var(--font-mono-display);
 }
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
-
 body {
-  background: var(--background);
+  background: var(--desktop);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-mono-display), var(--font-geist-mono), 'Courier New', monospace;
+  cursor: default;
 }
-
-/* Subtle grain texture overlay */
+.font-serif { font-family: var(--font-serif), Georgia, 'Times New Roman', serif; }
+.font-mono-display { font-family: var(--font-mono-display), var(--font-geist-mono), 'Courier New', monospace; }
+/* Noise/grain texture — subtle paper feel */
 body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px 256px;
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat; background-size: 200px 200px;
 }
-
-/* Serif font utility */
-.font-serif {
-  font-family: var(--font-serif), Georgia, 'Times New Roman', serif;
+/* RETRO WINDOW STYLES */
+.retro-window {
+  background: var(--window-bg);
+  border: 2px solid var(--window-border-dark);
+  box-shadow: 3px 3px 0px rgba(0,0,0,0.2), inset 1px 1px 0px var(--window-border-light), inset -1px -1px 0px var(--window-border-dark);
 }
-
-/* React Flow overrides — softer, warmer, rounded */
-.react-flow__controls {
-  border-radius: 12px !important;
-  overflow: hidden !important;
-  border: 1px solid #E7E5E4 !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important;
+.retro-title-bar {
+  background: var(--title-bar);
+  color: var(--title-text);
+  font-family: var(--font-mono-display), monospace;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
 }
-
-.react-flow__controls button {
-  border-color: #E7E5E4 !important;
-  background: #FAFAF8 !important;
-  color: #78716C !important;
-  width: 32px !important;
-  height: 32px !important;
+.retro-title-bar-inactive {
+  background: var(--title-bar-inactive);
 }
-
-.react-flow__controls button:hover {
-  background-color: #F5F5F4 !important;
-  color: #1C1917 !important;
+.retro-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--window-bg);
+  border: 2px outset var(--window-border-light);
+  color: var(--deep-forest);
+  font-family: var(--font-mono-display), monospace;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: none;
 }
-
-.react-flow__controls button svg {
-  fill: currentColor !important;
+.retro-btn:hover { background: #E8E0D4; }
+.retro-btn:active, .retro-btn-pressed {
+  border-style: inset;
+  background: #DDD5C8;
+  padding: 5px 11px 3px 13px;
 }
-
-.react-flow__minimap {
-  border-radius: 12px;
-  border: 1px solid #E7E5E4 !important;
+.retro-btn-accent {
+  background: var(--accent);
+  color: var(--cream);
+  border-color: var(--leaf);
 }
-
-/* Smooth node transitions */
-.react-flow__node {
-  transition: transform 0.2s ease, opacity 0.2s ease;
+.retro-btn-accent:hover { background: var(--fern); }
+.retro-btn-accent:active { background: #3A5A32; border-style: inset; }
+.retro-btn-amber {
+  background: var(--amber);
+  color: var(--cream);
+  border-color: var(--amber-light);
 }
-
-/* Custom scrollbar — warm tones */
-.overflow-y-auto::-webkit-scrollbar {
-  width: 4px;
+.retro-btn-amber:hover { background: #B4855A; }
+.retro-btn-amber:active { background: #A47550; border-style: inset; }
+.win-ctrl { width: 14px; height: 14px; border: 2px outset var(--window-border-light); background: var(--window-bg); display: inline-block; cursor: pointer; }
+.win-ctrl:active { border-style: inset; }
+/* Retro input */
+.retro-input {
+  background: white; border: 2px inset #A09080; padding: 4px 8px; font-family: var(--font-mono-display), monospace; font-size: 12px; color: var(--deep-forest);
 }
-
-.overflow-y-auto::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.overflow-y-auto::-webkit-scrollbar-thumb {
-  background: #D6D3D1;
-  border-radius: 2px;
-}
-
-.overflow-y-auto::-webkit-scrollbar-thumb:hover {
-  background: #A8A29E;
-}
-
-/* Recording ambient glow */
+.retro-input:focus { outline: 1px dotted var(--accent); outline-offset: 1px; }
+/* Retro scrollbar */
+.overflow-y-auto::-webkit-scrollbar { width: 16px; }
+.overflow-y-auto::-webkit-scrollbar-track { background: #D4CFC4; border-left: 1px solid #A09080; }
+.overflow-y-auto::-webkit-scrollbar-thumb { background: var(--window-bg); border: 2px outset var(--window-border-light); }
+.overflow-y-auto::-webkit-scrollbar-thumb:hover { background: #E0D8CC; }
+.overflow-y-auto::-webkit-scrollbar-button { background: var(--window-bg); border: 2px outset var(--window-border-light); height: 16px; }
+/* React Flow overrides */
+.react-flow__controls { border-radius: 0 !important; overflow: hidden !important; border: 2px outset var(--window-border-light) !important; box-shadow: 2px 2px 0px rgba(0,0,0,0.15) !important; background: var(--window-bg) !important; }
+.react-flow__controls button { border-color: var(--window-border-light) !important; border-style: outset !important; border-width: 1px !important; background: var(--window-bg) !important; color: var(--deep-forest) !important; border-radius: 0 !important; width: 28px !important; height: 28px !important; }
+.react-flow__controls button:hover { background: #E8E0D4 !important; }
+.react-flow__controls button:active { border-style: inset !important; }
+.react-flow__controls button svg { fill: currentColor !important; }
+.react-flow__minimap { border-radius: 0; border: 2px inset #A09080 !important; background: var(--window-bg) !important; }
+.react-flow__node { transition: transform 0.15s ease, opacity 0.15s ease; }
+/* Recording amber pulse */
 @keyframes ambient-glow {
-  0%, 100% { box-shadow: 0 0 8px rgba(239, 68, 68, 0.2); }
-  50% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.35); }
+  0%, 100% { box-shadow: 3px 3px 0px rgba(0,0,0,0.2), 0 0 8px rgba(196, 149, 106, 0.3); }
+  50% { box-shadow: 3px 3px 0px rgba(0,0,0,0.2), 0 0 16px rgba(196, 149, 106, 0.5); }
 }
-
-.recording-glow {
-  animation: ambient-glow 2s ease-in-out infinite;
-}
-
-/* Squiggly underline for fun accents */
-.squiggly {
-  text-decoration: underline;
-  text-decoration-style: wavy;
-  text-decoration-color: #A78BFA;
-  text-underline-offset: 3px;
-}
-
-/* Topic color pulse for active nodes */
-@keyframes soft-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+.recording-glow { animation: ambient-glow 2s ease-in-out infinite; }
+/* Squiggly */
+.squiggly { text-decoration: underline; text-decoration-style: wavy; text-decoration-color: var(--leaf); text-underline-offset: 3px; }
+@keyframes soft-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+/* Blinking cursor for empty states */
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.blink { animation: blink 1s step-end infinite; }
+/* Retro scanline overlay — very subtle */
+.scanlines::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.015) 2px, rgba(0,0,0,0.015) 4px);
 }

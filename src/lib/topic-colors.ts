@@ -1,10 +1,11 @@
-// Rotating topic color palette — warm, lively, sticky-note feel
+// Retro nature pastel topic colors — like old field guide illustrations
 export const TOPIC_COLORS = [
-  { bg: '#FFF7ED', border: '#FB923C', text: '#C2410C', dot: '#FB923C' },  // coral/orange
-  { bg: '#F0F9FF', border: '#38BDF8', text: '#0369A1', dot: '#38BDF8' },  // sky
-  { bg: '#F5F3FF', border: '#A78BFA', text: '#6D28D9', dot: '#A78BFA' },  // lavender
-  { bg: '#ECFDF5', border: '#34D399', text: '#047857', dot: '#34D399' },  // mint
-  { bg: '#FFF1F2', border: '#FB7185', text: '#BE123C', dot: '#FB7185' },  // rose
+  { bg: '#E8F0E4', border: '#5B7553', text: '#3A5A32', dot: '#5B7553' },  // sage/forest
+  { bg: '#F5EDE0', border: '#C4956A', text: '#8B6A42', dot: '#C4956A' },  // amber/bark
+  { bg: '#E0ECE4', border: '#7BA56E', text: '#4A6B42', dot: '#7BA56E' },  // fern
+  { bg: '#EDE4F0', border: '#8B7BA5', text: '#5A4A7B', dot: '#8B7BA5' },  // lavender wildflower
+  { bg: '#E4EBF0', border: '#6B8BA5', text: '#3A5A7B', dot: '#6B8BA5' },  // sky through trees
+  { bg: '#F0EBE0', border: '#A59B6B', text: '#6B6242', dot: '#A59B6B' },  // golden hour
 ] as const
 
 export function getTopicColor(colorIndex: number) {
