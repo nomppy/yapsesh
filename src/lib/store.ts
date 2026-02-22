@@ -98,11 +98,13 @@ export const useAppStore = create<AppState>()(
 
         for (const topic of extraction.topics) {
           if (topic.isNew) {
+            const existingCount = Object.keys(newTopics).length
             newTopics[topic.id] = {
               id: topic.id,
               name: topic.name,
               keyPoints: topic.keyPoints,
               speaker: topic.speaker,
+              colorIndex: existingCount,
               createdAt: Date.now(),
               updatedAt: Date.now(),
             }

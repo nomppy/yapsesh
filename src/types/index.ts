@@ -5,6 +5,7 @@ export interface Topic {
   name: string
   keyPoints: string[]
   speaker?: string
+  colorIndex: number
   createdAt: number
   updatedAt: number
 }

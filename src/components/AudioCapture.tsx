@@ -127,7 +127,7 @@ export function AudioCapture() {
     }
 
     if (!provider.isSupported()) {
-      alert('Speech recognition is not supported in this browser. Please use Chrome or Edge.')
+      alert('Your browser doesn\'t support speech recognition yet. Try Chrome or Edge!')
       return
     }
 
@@ -168,25 +168,25 @@ export function AudioCapture() {
 
   return (
     <div className="flex items-center gap-3">
-      {/* Desktop audio toggle — only show on Chrome/Edge, only when not recording */}
+      {/* Desktop audio toggle */}
       {canDesktopAudio && !isRecording && (
         <button
           onClick={() => setIncludeDesktopAudio(!includeDesktopAudio)}
           className={`
             flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors
             ${includeDesktopAudio
-              ? 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200'
-              : 'bg-zinc-100 text-zinc-500 hover:bg-zinc-200'
+              ? 'bg-violet-100 text-violet-700 hover:bg-violet-200'
+              : 'bg-stone-100 text-stone-500 hover:bg-stone-200'
             }
           `}
-          title={includeDesktopAudio ? 'Desktop audio capture enabled' : 'Enable desktop audio capture'}
+          title={includeDesktopAudio ? 'Listening to your screen too' : 'Also capture what\'s playing on screen'}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
             <line x1="8" y1="21" x2="16" y2="21" />
             <line x1="12" y1="17" x2="12" y2="21" />
           </svg>
-          {includeDesktopAudio ? 'Desktop On' : 'Desktop'}
+          {includeDesktopAudio ? 'Screen on' : 'Screen'}
         </button>
       )}
 
@@ -196,8 +196,8 @@ export function AudioCapture() {
           flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium
           transition-all duration-200
           ${isRecording
-            ? 'bg-red-500 text-white hover:bg-red-600 shadow-lg shadow-red-200'
-            : 'bg-zinc-900 text-white hover:bg-zinc-800'
+            ? 'bg-red-500 text-white hover:bg-red-600 recording-glow'
+            : 'bg-stone-900 text-white hover:bg-stone-800'
           }
         `}
       >
@@ -206,7 +206,7 @@ export function AudioCapture() {
       </button>
 
       {isProcessing && (
-        <span className="text-xs text-zinc-400 animate-pulse">Analyzing...</span>
+        <span className="text-[11px] text-stone-400 animate-pulse">thinking...</span>
       )}
       {lastError && (
         <button
@@ -216,10 +216,10 @@ export function AudioCapture() {
               useAppStore.getState().setSettingsOpen(true)
             }
           }}
-          className="text-xs text-red-500 hover:text-red-600 max-w-[250px] truncate"
+          className="text-[11px] text-red-500 hover:text-red-600 max-w-[250px] truncate"
           title={lastError}
         >
-          {lastError.includes('API key') ? 'No API key — click to open Settings' : lastError}
+          {lastError.includes('API key') ? 'Hmm, no API key — tap to fix' : `Hmm, something broke — ${lastError}`}
         </button>
       )}
     </div>

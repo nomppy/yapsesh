@@ -19,7 +19,7 @@ export default function Home() {
   }, [])
   return (
     <ReactFlowProvider>
-      <div className="flex flex-col h-screen bg-zinc-50">
+      <div className="flex flex-col h-screen" style={{ background: '#FAFAF8' }}>
         <TopBar />
 
         <div className="flex flex-col md:flex-row flex-1 min-h-0">

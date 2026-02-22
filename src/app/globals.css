@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FAFAF8;
+  --foreground: #1C1917;
+  --font-serif: var(--font-serif);
 }
 
 @theme inline {
@@ -15,28 +16,63 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
-/* React Flow overrides for muted palette */
+/* Subtle grain texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* Serif font utility */
+.font-serif {
+  font-family: var(--font-serif), Georgia, 'Times New Roman', serif;
+}
+
+/* React Flow overrides — softer, warmer, rounded */
+.react-flow__controls {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  border: 1px solid #E7E5E4 !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important;
+}
+
 .react-flow__controls button {
-  border-color: #e4e4e7 !important;
+  border-color: #E7E5E4 !important;
+  background: #FAFAF8 !important;
+  color: #78716C !important;
+  width: 32px !important;
+  height: 32px !important;
 }
 
 .react-flow__controls button:hover {
-  background-color: #f4f4f5 !important;
+  background-color: #F5F5F4 !important;
+  color: #1C1917 !important;
+}
+
+.react-flow__controls button svg {
+  fill: currentColor !important;
 }
 
 .react-flow__minimap {
-  border-radius: 8px;
+  border-radius: 12px;
+  border: 1px solid #E7E5E4 !important;
 }
 
 /* Smooth node transitions */
 .react-flow__node {
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* Custom scrollbar for transcript panel */
+/* Custom scrollbar — warm tones */
 .overflow-y-auto::-webkit-scrollbar {
   width: 4px;
 }
@@ -46,10 +82,34 @@ body {
 }
 
 .overflow-y-auto::-webkit-scrollbar-thumb {
-  background: #d4d4d8;
+  background: #D6D3D1;
   border-radius: 2px;
 }
 
 .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-  background: #a1a1aa;
+  background: #A8A29E;
+}
+
+/* Recording ambient glow */
+@keyframes ambient-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(239, 68, 68, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.35); }
+}
+
+.recording-glow {
+  animation: ambient-glow 2s ease-in-out infinite;
+}
+
+/* Squiggly underline for fun accents */
+.squiggly {
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: #A78BFA;
+  text-underline-offset: 3px;
+}
+
+/* Topic color pulse for active nodes */
+@keyframes soft-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
 }

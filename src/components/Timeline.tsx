@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useReactFlow } from '@xyflow/react'
 import { useAppStore } from '@/lib/store'
+import { getTopicColor } from '@/lib/topic-colors'
 
 export function Timeline() {
   const topics = useAppStore((s) => s.topics)
@@ -29,22 +30,22 @@ export function Timeline() {
     const y = node.position.y + (node.measured?.height ?? 160) / 2
     setCenter(x, y, { zoom: 1, duration: 400 })
 
-    // Flash highlight
     setFlashId(topicId)
     setTimeout(() => setFlashId(null), 1500)
   }
 
   return (
-    <div className="px-4 py-2 border-t border-zinc-200 bg-white">
-      <div className="relative h-6 flex items-center">
+    <div className="px-4 py-2.5 border-t border-stone-200 bg-white">
+      <div className="relative h-7 flex items-center">
         {/* Track line */}
-        <div className="absolute inset-x-0 h-px bg-zinc-200 top-1/2" />
+        <div className="absolute inset-x-0 h-[2px] bg-stone-200 top-1/2 rounded-full" />
 
-        {/* Topic dots */}
+        {/* Topic dots with color */}
         {topicList.map((topic) => {
           const position = ((topic.createdAt - startTime) / totalDuration) * 100
           const isActive = topic.id === currentTopicId
           const isFlashing = topic.id === flashId
+          const color = getTopicColor(topic.colorIndex ?? 0)
 
           return (
             <div
@@ -55,18 +56,22 @@ export function Timeline() {
             >
               <div
                 className={`
-                  w-3 h-3 rounded-full border-2 transition-all
+                  w-3.5 h-3.5 rounded-full border-2 transition-all duration-200
                   ${isFlashing
-                    ? 'bg-indigo-500 border-indigo-300 scale-150'
+                    ? 'scale-150'
                     : isActive
-                    ? 'bg-emerald-500 border-emerald-300 scale-125'
-                    : 'bg-white border-zinc-300 hover:border-zinc-400 hover:scale-110'
+                    ? 'scale-125'
+                    : 'hover:scale-110'
                   }
                 `}
+                style={{
+                  background: isFlashing || isActive ? color.border : 'white',
+                  borderColor: color.border,
+                }}
               />
               {/* Tooltip */}
               <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                <div className="bg-zinc-800 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap">
+                <div className="bg-stone-800 text-stone-50 text-[11px] px-2.5 py-1 rounded-lg whitespace-nowrap shadow-lg">
                   {topic.name}
                 </div>
               </div>
@@ -74,8 +79,8 @@ export function Timeline() {
           )
         })}
 
-        {/* Arrow at end */}
-        <div className="absolute right-0 text-zinc-300 text-xs">&#9654;</div>
+        {/* Subtle end indicator */}
+        <div className="absolute right-0 text-stone-300 text-xs">&#9654;</div>
       </div>
     </div>
   )

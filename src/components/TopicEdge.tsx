@@ -4,10 +4,10 @@ import { BaseEdge, getBezierPath, EdgeLabelRenderer, type EdgeProps } from '@xyf
 import type { Relationship } from '@/types'
 
 const edgeColors: Record<string, string> = {
-  led_to: '#64748b',
-  related_to: '#94a3b8',
-  contradicts: '#ef4444',
-  expanded_on: '#6366f1',
+  led_to: '#78716C',
+  related_to: '#A8A29E',
+  contradicts: '#EF4444',
+  expanded_on: '#7C3AED',
 }
 
 const edgeLabels: Record<string, string> = {
@@ -52,7 +52,7 @@ export function TopicEdge({
       />
       <EdgeLabelRenderer>
         <div
-          className="nodrag nopan pointer-events-none absolute px-1.5 py-0.5 rounded text-[9px] font-medium bg-white/90 border border-zinc-200 text-zinc-500"
+          className="nodrag nopan pointer-events-none absolute px-1.5 py-0.5 rounded-lg text-[9px] font-medium bg-white/90 border border-stone-200 text-stone-500"
           style={{
             transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
           }}
